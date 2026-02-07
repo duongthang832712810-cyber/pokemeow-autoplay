@@ -1,0 +1,4 @@
+{
+  "proxy_1": "http://user:pass@host:port",
+  "proxy_2": "http://user:pass@host:port"
+}
