@@ -1,4 +1,0 @@
-{
-    "proxy_1": "http://abcd:efgh@127.0.0.1:3389",
-    "proxy_2": "http://abcd:efgh@127.0.0.1:3389"
-}
