@@ -1,167 +1,110 @@
-# Pokemeow Autoplay (Windows)
+<div align="center">
 
-This `upload/` folder is **ready to run** on Windows: put the files together, edit `RUN.bat` + `config.ini`, then start.
+<pre>
+██████╗░░█████╗░██╗░░██╗███████╗███╗░░░███╗███████╗░█████╗░░██╗░░░░░░░██╗
+██╔══██╗██╔══██╗██║░██╔╝██╔════╝████╗░████║██╔════╝██╔══██╗░██║░░██╗░░██║
+██████╔╝██║░░██║█████═╝░█████╗░░██╔████╔██║█████╗░░██║░░██║░╚██╗████╗██╔╝
+██╔═══╝░██║░░██║██╔═██╗░██╔══╝░░██║╚██╔╝██║██╔══╝░░██║░░██║░░████╔═████║░
+██║░░░░░╚█████╔╝██║░╚██╗███████╗██║░╚═╝░██║███████╗╚█████╔╝░░╚██╔╝░╚██╔╝░
+╚═╝░░░░░░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚═╝╚══════╝░╚════╝░░░░╚═╝░░░╚═╝░░
 
----
+░█████╗░██╗░░░██╗████████╗░█████╗░██████╗░██╗░░░░░░█████╗░██╗░░░██╗
+██╔══██╗██║░░░██║╚══██╔══╝██╔══██╗██╔══██╗██║░░░░░██╔══██╗╚██╗░██╔╝
+███████║██║░░░██║░░░██║░░░██║░░██║██████╔╝██║░░░░░███████║░╚████╔╝░
+██╔══██║██║░░░██║░░░██║░░░██║░░██║██╔═══╝░██║░░░░░██╔══██║░░╚██╔╝░░
+██║░░██║╚██████╔╝░░░██║░░░╚█████╔╝██║░░░░░███████╗██║░░██║░░░██║░░░
+╚═╝░░╚═╝░╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚══════╝╚═╝░░╚═╝░░░╚═╝░░░
+</pre>
 
-## 1) Folder structure / required files
+### Auto-catch Pokemon with customizable settings, multi-account support, captcha solving, and more
 
-Keep these files in the **same folder** (as provided in `upload/`):
+[![Version](https://img.shields.io/badge/version-1.0x-blue?style=for-the-badge)]()
+[![Python](https://img.shields.io/badge/python-3.10+-yellow?style=for-the-badge&logo=python&logoColor=white)]()
+[![Discord](https://img.shields.io/badge/Discord_Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
+[![License](https://img.shields.io/badge/license-Paid%20(Key%20Required)-red?style=for-the-badge)]()
 
-- `Pokemeow Autoplay.exe`
-- `RUN.bat`
-- `config.ini`
-- `proxies.json` *(optional — only if you use a proxy)*
-
-Created automatically at runtime:
-- `logs/` (per-session logs)
-- `captchas/` (captcha images, if any)
-- `errors.log` (global error log)
-
----
-
-## 2) Quick start
-
-1) Right-click `RUN.bat` → **Edit** (or open with Notepad).
-2) Set the required values:
-   - `DISCORD_TOKEN`
-   - `CHANNEL_ID`
-   - `SESSION_NAME`
-3) (Optional) Proxy:
-   - enable: `set PROXY_ID=proxy_1` then edit `proxies.json`
-   - disable: `set PROXY_ID=` *(empty)*
-4) Double-click `RUN.bat` to run.
+[Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Config](#%EF%B8%8F-config) &bull; [Pricing](#-pricing) &bull; [Warning](#-warning)
 
 ---
 
-## 3) `RUN.bat` — flags (enable/disable features)
+</div>
 
-`RUN.bat` does two things:
-- sets environment variables (token/channel/flags…)
-- starts `Pokemeow Autoplay.exe`
+> [!CAUTION]
+> **Self-bots violate Discord Terms of Service** and can lead to a **permanent ban**. Use at your own risk and only on alt accounts.
 
-### Required
-```bat
-set SESSION_NAME=MySession
-set CHANNEL_ID=123456789012345678
-set DISCORD_TOKEN=YOUR_TOKEN
-```
+<br>
 
-### Proxy
-- Use proxy:
-```bat
-set PROXY_ID=proxy_1
-```
-- No proxy:
-```bat
-set PROXY_ID=
-```
+## ⚡ Features
 
-### Flags (how to edit)
-- Format: `set FLAG_NAME=True` or `set FLAG_NAME=False`
-- Examples:
-  - Disable exploring:
-    `set ENABLE_EXPLORING=False`
-  - Disable webhook mirroring:
-    `set ENABLE_WEBHOOK=False`
+<table>
+<tr>
+<td width="50%">
 
-Available flags (see `RUN.bat`):
-- `ENABLE_SHOW_ID`
-- `ENABLE_AUTO_BUY_BALLS`
-- `ENABLE_AUTO_RELEASE_DUPLICATES`
-- `ENABLE_AUTO_EGG_HATCH`
-- `ENABLE_AUTO_LOOTBOX_OPEN`
-- `ENABLE_AUTO_QUEST_REROLL`
-- `ENABLE_FISHING`
-- `ENABLE_BATTLE_NPC`
-- `ENABLE_HUNTING`
-- `ENABLE_EXPLORING`
-- `ENABLE_WEBHOOK`
-- `ENABLE_AUTO_GRAZZ`
-- `ENABLE_AUTO_REPEL`
-- `ENABLE_AUTO_DAILY`
-- `ENABLE_AUTO_CATCHBOT`
-- `ENABLE_AUTO_SWAP`
-- `ENABLE_AUTO_HUNT`
+- Auto hunt Pokémon
+- Auto fish Pokémon
+- Auto battle NPC
+- Auto buy Ball
+- Auto check & reroll & send help quest
+- Auto check & hatch egg
+- Auto catchbot
+- Auto lootbox
+- Auto grazz
 
-Notes:
-- Keep the `True/False` spelling exactly like the template.
-- If you mistype a flag name, the program may ignore it.
+</td>
+<td width="50%">
 
----
+- Auto repel
+- Auto claim daily reward
+- Auto release duplicate Pokémon
+- Auto solve captcha
+- Auto hunt and swap
+- Support webhook notify
+- Support proxy
+- Support human behavior actions
 
-## 4) `config.ini` — ball logic / quests / webhook / captcha
+</td>
+</tr>
+</table>
 
-Open `config.ini` with Notepad.
+<br>
 
-### 4.1 Pokéball mapping by rarity
-- `rarity_pokeball_mapping`: chooses which ball to throw per rarity.
-- Example: make `Rare` use `ultraball`:
-  ```ini
-  "Rare": "ultraball",
-  ```
+## 📥 Installation
 
-### 4.2 Rarity colors
-- `rarity_color_mapping`: console colors only.
+Place these files in the same folder:
 
-### 4.3 Quest keep list
-- `keep_quest_type`: quest types to **keep** (do not reroll).
+| File | Description |
+|:-----|:------------|
+| `Pokemeow Autoplay.exe` | Main executable |
+| `config.ini` | Main configuration |
+| `proxies.json` | Proxy list (optional) |
+| `example.bat` | Launcher template |
 
-### 4.4 Default balls
-- `fishing_ball`, `hunt_item_ball`, `fishing_shiny_golden_ball`
+<br>
 
-### 4.5 Webhook (optional)
-- To mirror rare catches to a webhook:
-  - set `webhook_url_success=...`
-  - set `webhook_url_failed=...`
-- Leave blank to disable.
+## 🚀 Usage
 
-### 4.6 Captcha solver (optional)
-- `predict_captcha_url=`: solver base URL
-- Leave blank to use the fallback (if implemented by the tool).
+1. Edit `config.ini` to match your preferences.
+2. Edit `example.bat` with your settings.
+3. Run `example.bat`.
 
-**Important:** JSON blocks inside `config.ini` must keep their indentation/formatting. Don’t break commas/braces.
+<br>
 
----
+## ⚙️ Config
 
-## 5) `proxies.json` (optional)
+- `config.ini` stores your main settings.
+- `proxies.json` is optional and holds proxy entries.
+- `example.bat` includes variables like `DISCORD_TOKEN`, `CHANNEL_ID`, `SESSION_NAME`, and `PROXY_ID` that control launch behavior.
 
-Format:
-- keys: `proxy_1`, `proxy_2`, ...
-- values: proxy URL `http://user:pass@host:port`
+<br>
 
-Example:
-```json
-{
-  "proxy_1": "http://user:pass@host:port",
-  "proxy_2": "http://user:pass@host:port"
-}
-```
+## 💳 Pricing
 
-Then set in `RUN.bat`:
-```bat
-set PROXY_ID=proxy_1
-```
+- COMBO PACKS: Weekly 7 days + 35 Predict = $5; Monthly 30 days + 120 Predict = $14
+- TIME ONLY: Weekly 7 days = $4; Monthly 30 days = $11
+- PREDICT ONLY: Basic 100 Predict = $5; Pro 300 Predict = $12
 
----
+<br>
 
-## 6) Hotkeys (console)
+## ⚠️ Warning
 
-While the bot is waiting/sleeping:
-- `p` pause (press Enter to resume)
-- `s` show statistics (press Enter to resume)
-- `h` toggle hunting
-- `f` toggle fishing
-- `b` toggle battle
-
----
-
-## 7) Logs / troubleshooting
-
-- Session log: `logs/<SESSION_NAME>.log`
-- Global error log: `errors.log`
-
-Common issues:
-- Invalid token → login fails.
-- Wrong channel ID / cannot find channel → re-check `CHANNEL_ID` and permissions.
-- Bad proxy → disable proxy (`PROXY_ID=`) or fix `proxies.json`.
+Automation may violate Discord or PokéMeow rules. Use at your own risk.
