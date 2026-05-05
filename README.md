@@ -16,14 +16,14 @@
 ╚═╝░░╚═╝░╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚══════╝╚═╝░░╚═╝░░░╚═╝░░░
 </pre>
 
-[![Version](https://img.shields.io/badge/version-1.06-blue?style=for-the-badge)]()
-[![Python](https://img.shields.io/badge/python-3.10+-yellow?style=for-the-badge&logo=python&logoColor=white)]()
+[![Version](https://img.shields.io/badge/version-1.7.2-blue?style=for-the-badge)]()
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
 [![Discord](https://img.shields.io/badge/Discord_Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
-[![License](https://img.shields.io/badge/license-Paid_(Key_Required)-green?style=for-the-badge)]()
+[![Paid App](https://img.shields.io/badge/access-Paid_App-green?style=for-the-badge)]()
 
-**Auto-catch Pokémon with fully customizable settings, multi-account support, captcha solving, and more.**
+**Pokemeow Autoplay is a private paid desktop app for automating PokéMeow gameplay with configurable behavior, captcha solving, webhooks, and runtime control tools.**
 
-[Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Config](#%EF%B8%8F-config-overview) &bull; [Flags](#-flags) &bull; [Pricing](#-pricing) &bull; [Changelog](#-changelog) &bull; [Warning](#%EF%B8%8F-warning)
+[Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Configuration](#%EF%B8%8F-configuration-overview) &bull; [Hotkeys](#-runtime-hotkeys) &bull; [Pricing](#-pricing) &bull; [Changelog](./Change%20log.md) &bull; [Warning](#%EF%B8%8F-warning)
 
 </div>
 
@@ -31,7 +31,7 @@
 
 > [!CAUTION]
 > **Self-bots violate Discord Terms of Service** and can lead to **permanent account termination**.
-> Always use an alt account. Use entirely at your own risk.
+> Always use an alt account. Use this app entirely at your own risk.
 
 ---
 
@@ -42,27 +42,53 @@
 <td width="50%">
 
 **🎮 Core Automation**
-- Auto hunt Pokémon
-- Auto fish Pokémon
-- Auto battle NPC
-- Auto buy Ball
-- Auto check, reroll & send help quest
-- Auto check & hatch egg
-- Auto catchbot
-- Auto lootbox
+- Auto hunt Pokémon using the `;p` flow
+- Auto fish Pokémon, pull the fish, and throw the selected ball
+- Auto battle NPCs or configured user targets
+- Auto checklist scan with follow-up actions
+- Auto inventory scan across inventory pages
+- Auto catchbot start and return-result tracking
+- Auto daily reward claim
+- Auto daily hunt check and low-rarity reroll
+- Auto daily swap token claim
 
 </td>
 <td width="50%">
 
-**🛠️ Utilities & Support**
-- Auto repel
-- Auto claim daily reward
-- Auto release duplicate Pokémon
-- Auto grazz
-- Auto hunt and swap
-- Auto solve captcha
-- Support webhook notify
-- Support human-behavior actions
+**🧰 Inventory & Resource Automation**
+- Auto buy Poké Balls when ball stock is low
+- Configurable shop budget and ball purchase percentages
+- Auto release duplicate Pokémon and track returned coins
+- Auto hatch ready eggs and hold a new egg when available
+- Auto open lootboxes after a configurable minimum amount
+- Auto use Grazz Berries after a configurable minimum amount
+- Auto use Repels after a configurable minimum amount
+- Auto quest check, quest reroll filtering, and help request support
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**🎯 Catching Intelligence**
+- Rarity-based ball selection for hunting encounters
+- Fishing encounter rarity lookup and ball selection
+- Special ball selection for Pokémon holding items
+- Automatic ball downgrade when the preferred ball is unavailable
+- Legendary, Shiny, and Golden catch/fail webhook notifications
+- Catch result parsing for coins, items, tokens, and rarity counts
+
+</td>
+<td width="50%">
+
+**🛡️ Safety & Support Tools**
+- Paid app access for public builds
+- App version display and update notice support
+- Captcha detection, download, solving, and submission
+- Temporary-ban detection before and after captcha solving
+- Human-behavior mode with randomized delays, warm-up timing, distractions, and long breaks
+- Runtime pause, statistics view, and task toggle hotkeys
+- Session statistics for catches, coins, items, lootboxes, eggs, battles, captcha count, Grazz, Repel, and released Pokémon
 
 </td>
 </tr>
@@ -76,11 +102,11 @@
 
 | File | Description |
 |:-----|:------------|
-| `Pokemeow Autoplay.exe` | Main application |
-| `config.yml` | Main configuration file |
-| `example.bat` | Launcher template |
+| `Pokemeow Autoplay v1.7.2.exe` | Main application |
+| `settings.yml` | External editable settings file |
+| `example.bat` | Launcher template for your session variables and feature toggles |
 
-> Place all files in the **same folder** before running.
+> Place all files in the **same folder** before running. The app is distributed as a compiled executable; source code is private and is not included with the public app package.
 
 ---
 
@@ -88,88 +114,96 @@
 
 ### Quick Start
 
-1. Edit `config.yml` to match your preferences
-2. Edit `example.bat` — set your token, channel ID, session name, and toggle any flags
-3. Double-click `example.bat` to launch
+1. Put `Pokemeow Autoplay v1.7.2.exe`, `settings.yml`, and your launcher `.bat` in the same folder.
+2. Edit `settings.yml` to match your preferred automation behavior.
+3. Edit `example.bat` and set your session name, Discord token, target channel ID, human-behavior mode, and feature toggles.
+4. Run the launcher `.bat`.
+5. Keep the app window open while it runs.
 
 > [!WARNING]
-> **Never share your token**, config file, or key with anyone.
+> **Never share your Discord token, launcher file, or settings file with anyone.**
 
 ---
 
-## ⚙️ Config Overview
+## ⚙️ Configuration Overview
 
-| Key | Description |
-|:----|:------------|
-| `DISCORD_TOKEN` | Your Discord token — keep this private |
-| `CHANNEL_ID` | The PokéMeow channel to run in |
-| `SESSION_NAME` | Label shown in logs for this session |
+### Launcher Variables
 
----
+These values are set in your launcher `.bat` file.
 
-## 🚩 Flags
-
-All flags are set inside `example.bat` as environment variables. Set each to `True` or `False`.
-
-### Identity
-
-| Flag | Default | Description |
-|:-----|:-------:|:------------|
-| `SESSION_NAME` | — | Display name for this session in logs |
-| `DISCORD_TOKEN` | — | Your Discord user token |
-| `CHANNEL_ID` | — | Channel ID to run the bot in |
-| `HUMAN_PLAY` | `False` | Enable human-behavior simulation (random delays, natural timing) |
+| Variable | Description |
+|:---------|:------------|
+| `SESSION_NAME` | Display name shown in the app logs |
+| `DISCORD_TOKEN` | Your Discord user token; keep it private |
+| `CHANNEL_ID` | The Discord channel ID where PokéMeow commands are sent |
+| `HUMAN_PLAY` | Enables human-behavior timing when set to `True` |
 
 ### Feature Toggles
 
-| Flag | Default | Description |
-|:-----|:-------:|:------------|
-| `ENABLE_HUNTING` | `True` | Auto hunt Pokémon |
-| `ENABLE_FISHING` | `True` | Auto fish Pokémon |
-| `ENABLE_BATTLE_NPC` | `True` | Auto battle NPC |
-| `ENABLE_EXPLORING` | `True` | Auto explore |
-| `ENABLE_AUTO_CATCHBOT` | `True` | Auto catchbot |
-| `ENABLE_AUTO_HUNT` | `True` | Auto hunt mode |
-| `ENABLE_AUTO_SWAP` | `True` | Auto hunt and swap |
-| `ENABLE_AUTO_BUY_BALLS` | `True` | Auto buy Poké Balls when low |
-| `ENABLE_AUTO_RELEASE_DUPLICATES` | `True` | Auto release duplicate Pokémon |
-| `ENABLE_AUTO_EGG_HATCH` | `True` | Auto hatch eggs |
-| `ENABLE_AUTO_LOOTBOX_OPEN` | `True` | Auto open loot boxes |
-| `ENABLE_AUTO_QUEST_REROLL` | `True` | Auto check, reroll & send help quest |
-| `ENABLE_AUTO_GRAZZ` | `True` | Auto grazz |
-| `ENABLE_AUTO_REPEL` | `True` | Auto repel |
-| `ENABLE_AUTO_DAILY` | `True` | Auto claim daily reward |
-| `ENABLE_WEBHOOK` | `True` | Send webhook notifications on catches |
+Set each toggle to `True` or `False` in your launcher `.bat` file.
 
-### Example `example.bat`
+| Toggle | Description |
+|:-------|:------------|
+| `ENABLE_HUNTING` | Enables automatic Pokémon catching with `;p` |
+| `ENABLE_FISHING` | Enables automatic fishing with `;f` |
+| `ENABLE_BATTLE_NPC` | Enables automatic battle runs |
+| `ENABLE_EXPLORING` | Reserved launcher toggle for exploration-related automation |
+| `ENABLE_AUTO_CATCHBOT` | Enables automatic catchbot start/result handling from checklist |
+| `ENABLE_AUTO_HUNT` | Enables daily hunt check and reroll handling from checklist |
+| `ENABLE_AUTO_SWAP` | Enables daily swap token claim from checklist |
+| `ENABLE_AUTO_BUY_BALLS` | Enables automatic ball purchasing when stock is low |
+| `ENABLE_AUTO_RELEASE_DUPLICATES` | Enables automatic duplicate release |
+| `ENABLE_AUTO_EGG_HATCH` | Enables egg hatch and egg hold automation |
+| `ENABLE_AUTO_LOOTBOX_OPEN` | Enables automatic lootbox opening |
+| `ENABLE_AUTO_QUEST_REROLL` | Enables quest checking, reroll filtering, and help request support |
+| `ENABLE_AUTO_GRAZZ` | Enables automatic Grazz Berry usage |
+| `ENABLE_AUTO_REPEL` | Enables automatic Repel usage |
+| `ENABLE_AUTO_DAILY` | Enables automatic daily reward claim |
+| `ENABLE_WEBHOOK` | Enables direct webhook notifications for important catch results |
 
-```bat
-@echo off
-set SESSION_NAME=MySession
-set DISCORD_TOKEN=YOUR_TOKEN_HERE
-set CHANNEL_ID=YOUR_CHANNEL_ID
-set HUMAN_PLAY=False
+### `settings.yml` Options
 
-set ENABLE_AUTO_BUY_BALLS=True
-set ENABLE_AUTO_RELEASE_DUPLICATES=True
-set ENABLE_AUTO_EGG_HATCH=True
-set ENABLE_AUTO_LOOTBOX_OPEN=True
-set ENABLE_AUTO_QUEST_REROLL=True
-set ENABLE_FISHING=True
-set ENABLE_BATTLE_NPC=True
-set ENABLE_HUNTING=True
-set ENABLE_EXPLORING=True
-set ENABLE_WEBHOOK=True
-set ENABLE_AUTO_GRAZZ=True
-set ENABLE_AUTO_REPEL=True
-set ENABLE_AUTO_DAILY=True
-set ENABLE_AUTO_CATCHBOT=True
-set ENABLE_AUTO_SWAP=True
-set ENABLE_AUTO_HUNT=True
+| Setting | Description |
+|:--------|:------------|
+| `server_url` | App service URL for captcha and webhook support |
+| `max_budget` | Maximum coins the app can spend in one shop run |
+| `ball_percentage` | Budget split for Poké Ball, Great Ball, Ultra Ball, and Master Ball purchases; use `-1` to skip a ball type |
+| `min_grazz` | Minimum Grazz Berries required before using all |
+| `min_repel` | Minimum Repels required before using all |
+| `min_lootbox` | Minimum lootboxes required before opening all |
+| `fishing_ball` | Default ball preference for fishing encounters |
+| `fishing_shiny_golden_ball` | Ball preference for Shiny/Golden fishing encounters |
+| `hunt_item_ball` | Ball preference when a hunted Pokémon is holding an item |
+| `webhook_url_success` | Discord webhook URL for successful important catches |
+| `webhook_url_failed` | Discord webhook URL for failed important catches |
+| `keep_quest_type` | Quest keywords/types that should be kept instead of rerolled |
+| `battle_mode` | Battle target mode, such as NPC or user target mode |
+| `battle_target` | One or more NPC levels or user IDs; the app chooses one randomly |
+| `battle_skills` | Skill rotation used during battle automation |
+| `rarity_pokeball_mapping` | Ball preference for each Pokémon rarity |
 
-"Pokemeow Autoplay.exe"
-pause
-```
+---
+
+## ⌨️ Runtime Hotkeys
+
+Hotkeys are available while the app is sleeping between actions.
+
+| Key | Action |
+|:----|:-------|
+| `P` | Pause execution until Enter is pressed |
+| `S` | Show session statistics, then pause until Enter is pressed |
+| `H` | Toggle hunting task on/off |
+| `F` | Toggle fishing task on/off |
+| `B` | Toggle battle task on/off |
+
+---
+
+## 🧾 App Access & Updates
+
+- Pokemeow Autoplay is a paid public app; source code is private and not distributed.
+- The app shows useful status details such as session name, app version, service version, and captcha solve count.
+- Update notices help users know when a newer public build is available.
+- If the app provides a download/update link, use it to get the latest public build.
 
 ---
 
@@ -196,39 +230,29 @@ pause
 </tr>
 </table>
 
-> To purchase a key or ask questions, join the **[Discord Server](https://discord.gg/K4vfTbgh2U)**.
+> To purchase access or ask questions, join the **[Discord Server](https://discord.gg/K4vfTbgh2U)**.
 
 ---
 
 ## 📋 Changelog
 
-### v1.06
-- Removed proxy support
-- Removed `predict_captcha_url` config option
-- Switched config format from `config.ini` → `config.yml`
-- General stability improvements
-
-### v1.05 and earlier
-- Multi-account support
-- Auto captcha solving integration
-- Webhook notify support
-- Human-behavior action simulation
-- Proxy support
+The full changelog is maintained in **[Change log.md](./Change%20log.md)** and is ordered from newest to oldest.
 
 ---
 
 ## ⚠️ Warning
 
-- This tool is a **self-bot** and violates Discord's Terms of Service
-- Usage may also violate PokéMeow bot rules
-- The developer is **not responsible** for any account bans or losses
-- Always use on an **alt account**
+- This app is a **self-bot** and violates Discord's Terms of Service.
+- Usage may also violate PokéMeow bot rules.
+- Account bans, cooldowns, captcha locks, or other losses are possible.
+- The developer is **not responsible** for any account bans or losses.
+- Always use an **alt account**.
 
 ---
 
 <div align="center">
 
-**v1.06** &mdash; Pokemeow Autoplay
+**v1.7.2** &mdash; Pokemeow Autoplay
 
 [![Discord](https://img.shields.io/badge/Join_the_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 
