@@ -23,7 +23,7 @@
 
 **Pokemeow Autoplay is a private paid desktop app for automating PokéMeow gameplay with configurable behavior, captcha solving, webhooks, and runtime control tools.**
 
-[Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Configuration](#%EF%B8%8F-configuration-overview) &bull; [Hotkeys](#-runtime-hotkeys) &bull; [Pricing](#-pricing) &bull; [Changelog](./Change%20log.md) &bull; [Warning](#%EF%B8%8F-warning)
+[Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Configuration](#%EF%B8%8F-configuration-overview) &bull; [Hotkeys](#-runtime-hotkeys) &bull; [Pricing](#-pricing) &bull; [Changelog](./CHANGELOG.md) &bull; [Warning](#%EF%B8%8F-warning)
 
 </div>
 
@@ -236,7 +236,7 @@ Hotkeys are available while the app is sleeping between actions.
 
 ## 📋 Changelog
 
-The full changelog is maintained in **[Change log.md](./Change%20log.md)** and is ordered from newest to oldest.
+The full changelog is maintained in **[CHANGELOG.md](./CHANGELOG.md)** and is ordered from newest to oldest.
 
 ---
 
