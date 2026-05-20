@@ -16,12 +16,12 @@
 ╚═╝░░╚═╝░╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚══════╝╚═╝░░╚═╝░░░╚═╝░░░
 </pre>
 
-[![Version](https://img.shields.io/badge/version-1.7.2-blue?style=for-the-badge)]()
+[![Version](https://img.shields.io/badge/version-1.9.0-blue?style=for-the-badge)]()
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
 [![Discord](https://img.shields.io/badge/Discord_Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 [![Paid App](https://img.shields.io/badge/access-Paid_App-green?style=for-the-badge)]()
 
-**Pokemeow Autoplay is a private paid desktop app for automating PokéMeow gameplay with configurable behavior, captcha solving, webhooks, and runtime control tools.**
+**Pokemeow Autoplay is a private paid desktop app for automating PokéMeow gameplay with configurable behavior, license verification, captcha solving, webhooks, and runtime control tools.**
 
 [Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Configuration](#%EF%B8%8F-configuration-overview) &bull; [Hotkeys](#-runtime-hotkeys) &bull; [Pricing](#-pricing) &bull; [Changelog](./CHANGELOG.md) &bull; [Warning](#%EF%B8%8F-warning)
 
@@ -57,7 +57,7 @@
 
 **🧰 Inventory & Resource Automation**
 - Auto buy Poké Balls when ball stock is low
-- Configurable shop budget and ball purchase percentages
+- Configurable shop budget and scaled ball purchase ratios
 - Auto release duplicate Pokémon and track returned coins
 - Auto hatch ready eggs and hold a new egg when available
 - Auto open lootboxes after a configurable minimum amount
@@ -73,17 +73,20 @@
 **🎯 Catching Intelligence**
 - Rarity-based ball selection for hunting encounters
 - Fishing encounter rarity lookup and ball selection
+- Pokémon-specific ball overrides for hunting and fishing
 - Special ball selection for Pokémon holding items
 - Automatic ball downgrade when the preferred ball is unavailable
+- Improved fishing state detection for bite, no-nibble, got-away, encounter, and result states
 - Legendary, Shiny, and Golden catch/fail webhook notifications
+- User-only special webhook notifications for Pokémon-specific ball override encounters
 - Catch result parsing for coins, items, tokens, and rarity counts
 
 </td>
 <td width="50%">
 
 **🛡️ Safety & Support Tools**
-- Paid app access for public builds
-- App version display and update notice support
+- Paid app access with license verification before Discord connection
+- App version display, license status panel, and update notice support
 - Captcha detection, download, solving, and submission
 - Temporary-ban detection before and after captcha solving
 - Human-behavior mode with randomized delays, warm-up timing, distractions, and long breaks
@@ -102,7 +105,7 @@
 
 | File | Description |
 |:-----|:------------|
-| `Pokemeow Autoplay v1.7.2.exe` | Main application |
+| `Pokemeow Autoplay v1.9.0.exe` | Main application |
 | `settings.yml` | External editable settings file |
 | `example.bat` | Launcher template for your session variables and feature toggles |
 
@@ -114,7 +117,7 @@
 
 ### Quick Start
 
-1. Put `Pokemeow Autoplay v1.7.2.exe`, `settings.yml`, and your launcher `.bat` in the same folder.
+1. Put `Pokemeow Autoplay v1.9.0.exe`, `settings.yml`, and your launcher `.bat` in the same folder.
 2. Edit `settings.yml` to match your preferred automation behavior.
 3. Edit `example.bat` and set your session name, Discord token, target channel ID, human-behavior mode, and feature toggles.
 4. Run the launcher `.bat`.
@@ -159,7 +162,7 @@ Set each toggle to `True` or `False` in your launcher `.bat` file.
 | `ENABLE_AUTO_GRAZZ` | Enables automatic Grazz Berry usage |
 | `ENABLE_AUTO_REPEL` | Enables automatic Repel usage |
 | `ENABLE_AUTO_DAILY` | Enables automatic daily reward claim |
-| `ENABLE_WEBHOOK` | Enables direct webhook notifications for important catch results |
+| `ENABLE_WEBHOOK` | Enables direct webhook notifications for important and special catch results |
 
 ### `settings.yml` Options
 
@@ -167,7 +170,7 @@ Set each toggle to `True` or `False` in your launcher `.bat` file.
 |:--------|:------------|
 | `server_url` | App service URL for captcha and webhook support |
 | `max_budget` | Maximum coins the app can spend in one shop run |
-| `ball_percentage` | Budget split for Poké Ball, Great Ball, Ultra Ball, and Master Ball purchases; use `-1` to skip a ball type |
+| `ball_budget_ratio` | Relative budget ratio for Poké Ball, Great Ball, Ultra Ball, and Master Ball purchases; values are scaled automatically and `0` skips a ball type |
 | `min_grazz` | Minimum Grazz Berries required before using all |
 | `min_repel` | Minimum Repels required before using all |
 | `min_lootbox` | Minimum lootboxes required before opening all |
@@ -181,6 +184,7 @@ Set each toggle to `True` or `False` in your launcher `.bat` file.
 | `battle_target` | One or more NPC levels or user IDs; the app chooses one randomly |
 | `battle_skills` | Skill rotation used during battle automation |
 | `rarity_pokeball_mapping` | Ball preference for each Pokémon rarity |
+| `pokemon_pokeball_mapping` | Optional Pokémon-specific ball overrides for normal hunting and fishing encounters; Legendary, Shiny, and Golden encounters still use rarity protection first |
 
 ---
 
@@ -201,7 +205,8 @@ Hotkeys are available while the app is sleeping between actions.
 ## 🧾 App Access & Updates
 
 - Pokemeow Autoplay is a paid public app; source code is private and not distributed.
-- The app shows useful status details such as session name, app version, service version, and captcha solve count.
+- The app verifies license status before connecting to Discord.
+- The app shows useful status details such as session name, license state, expiry time, remaining time, app version, service version, and captcha solve count.
 - Update notices help users know when a newer public build is available.
 - If the app provides a download/update link, use it to get the latest public build.
 
@@ -252,7 +257,7 @@ The full changelog is maintained in **[CHANGELOG.md](./CHANGELOG.md)** and is or
 
 <div align="center">
 
-**v1.7.2** &mdash; Pokemeow Autoplay
+**v1.9.0** &mdash; Pokemeow Autoplay
 
 [![Discord](https://img.shields.io/badge/Join_the_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 
