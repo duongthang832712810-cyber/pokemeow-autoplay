@@ -1,5 +1,4 @@
 <div align="center">
-
 <pre>
 ██████╗░░█████╗░██╗░░██╗███████╗███╗░░░███╗███████╗░█████╗░░██╗░░░░░░░██╗
 ██╔══██╗██╔══██╗██║░██╔╝██╔════╝████╗░████║██╔════╝██╔══██╗░██║░░██╗░░██║
@@ -7,7 +6,6 @@
 ██╔═══╝░██║░░██║██╔═██╗░██╔══╝░░██║╚██╔╝██║██╔══╝░░██║░░██║░░████╔═████║░
 ██║░░░░░╚█████╔╝██║░╚██╗███████╗██║░╚═╝░██║███████╗╚█████╔╝░░╚██╔╝░╚██╔╝░
 ╚═╝░░░░░░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚═╝╚══════╝░╚════╝░░░░╚═╝░░░╚═╝░░
-
 ░█████╗░██╗░░░██╗████████╗░█████╗░██████╗░██╗░░░░░░█████╗░██╗░░░██╗
 ██╔══██╗██║░░░██║╚══██╔══╝██╔══██╗██╔══██╗██║░░░░░██╔══██╗╚██╗░██╔╝
 ███████║██║░░░██║░░░██║░░░██║░░██║██████╔╝██║░░░░░███████║░╚████╔╝░
@@ -18,13 +16,13 @@
 
 [![Version](https://img.shields.io/badge/version-1.9.0-blue?style=for-the-badge)]()
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
+[![Website](https://img.shields.io/badge/Official_Website-pokemeowautoplay.store-orange?style=for-the-badge)](https://pokemeowautoplay.store/)
 [![Discord](https://img.shields.io/badge/Discord_Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 [![Paid App](https://img.shields.io/badge/access-Paid_App-green?style=for-the-badge)]()
 
 **Pokemeow Autoplay is a private paid desktop app for automating PokéMeow gameplay with configurable behavior, license verification, captcha solving, webhooks, and runtime control tools.**
 
-[Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Configuration](#%EF%B8%8F-configuration-overview) &bull; [Hotkeys](#-runtime-hotkeys) &bull; [Pricing](#-pricing) &bull; [Changelog](./CHANGELOG.md) &bull; [Warning](#%EF%B8%8F-warning)
-
+[Website](https://pokemeowautoplay.store/) &bull; [Features](#-features) &bull; [Installation](#-installation) &bull; [Usage](#-usage) &bull; [Configuration](#%EF%B8%8F-configuration-overview) &bull; [Hotkeys](#-runtime-hotkeys) &bull; [Pricing](#-pricing) &bull; [Changelog](./CHANGELOG.md) &bull; [Warning](#%EF%B8%8F-warning)
 </div>
 
 ---
@@ -42,6 +40,7 @@
 <td width="50%">
 
 **🎮 Core Automation**
+
 - Auto hunt Pokémon using the `;p` flow
 - Auto fish Pokémon, pull the fish, and throw the selected ball
 - Auto battle NPCs or configured user targets
@@ -56,6 +55,7 @@
 <td width="50%">
 
 **🧰 Inventory & Resource Automation**
+
 - Auto buy Poké Balls when ball stock is low
 - Configurable shop budget and scaled ball purchase ratios
 - Auto release duplicate Pokémon and track returned coins
@@ -71,6 +71,7 @@
 <td width="50%">
 
 **🎯 Catching Intelligence**
+
 - Rarity-based ball selection for hunting encounters
 - Fishing encounter rarity lookup and ball selection
 - Pokémon-specific ball overrides for hunting and fishing
@@ -85,6 +86,7 @@
 <td width="50%">
 
 **🛡️ Safety & Support Tools**
+
 - Paid app access with license verification before Discord connection
 - App version display, license status panel, and update notice support
 - Captcha detection, download, solving, and submission
@@ -235,7 +237,7 @@ Hotkeys are available while the app is sleeping between actions.
 </tr>
 </table>
 
-> To purchase access or ask questions, join the **[Discord Server](https://discord.gg/K4vfTbgh2U)**.
+> To purchase access or ask questions, visit the **[Official Website](https://pokemeowautoplay.store/)** or join the **[Discord Server](https://discord.gg/K4vfTbgh2U)**.
 
 ---
 
@@ -259,6 +261,7 @@ The full changelog is maintained in **[CHANGELOG.md](./CHANGELOG.md)** and is or
 
 **v1.9.0** &mdash; Pokemeow Autoplay
 
+[![Website](https://img.shields.io/badge/Official_Website-pokemeowautoplay.store-orange?style=for-the-badge)](https://pokemeowautoplay.store/)
 [![Discord](https://img.shields.io/badge/Join_the_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 
 </div>
