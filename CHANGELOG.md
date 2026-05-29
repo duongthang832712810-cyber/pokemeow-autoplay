@@ -38,41 +38,6 @@ Customer-facing changes when upgrading from v1.9.2.
 
 ---
 
-## v1.9.2
-
-Customer-facing changes when upgrading from v1.9.1.
-
-### Improved
-
-- Improved official 24/7 runtime support for continuous long-session autoplay.
-- Upgraded Anti-Ban runtime behavior for smoother extended sessions.
-- Improved humanized pacing so command timing, task order, and recovery behavior feel less repetitive during long runs.
-- Improved challenge-resilience handling for captcha prompts, wait states, cooldown responses, and temporary anti-abuse checks.
-- Improved captcha handling speed, accuracy, and recovery flow during active gameplay.
-- Improved automatic recovery after captcha, retry, wait, refresh, and temporary blocking responses.
-- Improved scheduler stability for continuous hunting, fishing, battle, checklist, inventory, release, and shop loops.
-- Improved command-state handling so unavailable features are skipped more cleanly during the current runtime session.
-- Reduced idle stalls and unnecessary action repeats during 24/7 operation.
-- Improved long-session console logs so runtime state, recovery actions, and disabled features are easier to monitor.
-
-### Fixed
-
-- Fixed issues that could interrupt autoplay during long 24/7 sessions.
-- Fixed captcha flow delays that could slow down command recovery.
-- Fixed cases where the client could repeat failed actions after temporary restrictions or cooldown responses.
-- Fixed unstable retry behavior after PokeMeow wait, refresh, or challenge states.
-- Fixed command state handling when a feature becomes unavailable during the current session.
-- Fixed scheduler edge cases that could delay or skip task execution during extended runtime.
-- Fixed minor long-session stability issues reported from continuous client usage.
-
-### Upgrade Notes
-
-- No required `settings.yml` migration is expected from v1.9.1 if the existing values are valid.
-- Existing launcher `.bat` feature toggles remain the same.
-- This release focuses on 24/7 runtime stability, Anti-Ban pacing, faster captcha handling, challenge recovery, scheduler reliability, and cleaner long-session behavior.
-
----
-
 ## v1.9.1
 
 Customer-facing changes when upgrading from v1.9.0.
