@@ -4,37 +4,70 @@ All notable public app updates are listed from newest to oldest.
 
 ---
 
+## v2.4.0
+
+Current release.
+
+### Changed
+
+- Replaced `HUMAN_PLAY` with `ENABLE_HUMAN_MODE`; Human Mode now provides optional timed active sessions, long breaks, and micro-breaks and defaults to disabled.
+- Hunting and fishing now include Drive-style random cycle skips, command typos, and normal-ball variations.
+- Hunting and fishing now wait 1-3 seconds immediately before clicking the selected ball; other button clicks are unchanged.
+- Successful Legendary, Shiny, and Golden catches now query and log the first market listing.
+- Battle is fixed to `;b npc 1` and clicks the first available attack button.
+- Ball buying now reads `min_budget`, `max_budget`, and `ball_budget_ratio` from `settings.yml`.
+- Quest reroll now keeps only `:dexcaught:` quests.
+- Discord traffic can use the authenticated `PROXY_IP` launcher setting for the gateway, Discord CDN captcha downloads, and direct Discord webhooks. License/API traffic remains direct.
+- Discord's default library logging is disabled so startup and proxy errors are reported through the client logger without a duplicate traceback.
+- Added a documentation link to the external [Meow Captcha Discord application](https://discord.com/discovery/applications/1502217750444249208) for users who need separate captcha assistance.
+
+### Configuration
+
+- `PROXY_IP` must use the exact `HOST:PORT:USERNAME:PASSWORD` format.
+- Invalid or missing proxy configuration stops startup; the client never falls back to a direct Discord connection.
+- Existing `settings.yml` files must contain the current auto-buy budget keys and no longer need the removed battle-target, battle-skill, or quest-filter settings.
+
+### Responsibility and Disclaimer
+
+- The user is solely responsible for their Discord/PokéMeow account, token, proxy, configuration, commands, and activity.
+- The user must comply with Discord, PokéMeow, and applicable third-party rules.
+- The developer provides no account-safety or uninterrupted-service guarantee and is not liable for bans, restrictions, captcha locks, lost access, data loss, or other consequences of use.
+
+---
+
 ## v2.0.0
 
-Customer-facing changes when upgrading from v1.9.2.
+Customer-facing changes when upgrading from v1.9.1.
 
 ### Improved
 
-- Updated the public client version to `2.0.0`.
-- Updated license version validation for the 2.0.0 client release.
-- Improved 24/7 runtime stability for continuous long-session autoplay.
-- Upgraded Anti-Ban pacing for smoother extended sessions with less repetitive runtime behavior.
-- Improved challenge-resilience handling for captcha prompts, wait states, cooldown responses, refresh states, and temporary anti-abuse checks.
-- Improved captcha solve flow for faster response handling and cleaner recovery during active gameplay.
-- Improved scheduler reliability across hunting, fishing, battle, checklist, inventory, release, and shop automation.
-- Improved runtime state handling so temporarily unavailable features are skipped cleanly during the same session.
-- Improved console/runtime wording for recovery actions, disabled features, and long-session monitoring.
+- Improved runtime support for continuous long-session autoplay.
+- Added optional runtime pacing for smoother extended sessions.
+- Improved session pacing so command timing, task order, and recovery behavior are easier to control during long runs.
+- Improved challenge-resilience handling for captcha prompts, wait states, cooldown responses, and temporary anti-abuse checks.
+- Improved captcha handling speed, accuracy, and recovery flow during active gameplay.
+- Improved automatic recovery after captcha, retry, wait, refresh, and temporary blocking responses.
+- Improved scheduler stability for continuous hunting, fishing, battle, checklist, inventory, release, and shop loops.
+- Improved command-state handling so unavailable features are skipped more cleanly during the current runtime session.
+- Reduced idle stalls and unnecessary action repeats during 24/7 operation.
+- Improved long-session console logs so runtime state, recovery actions, and disabled features are easier to monitor.
 
 ### Fixed
 
-- Fixed client/server version mismatch handling for the 2.0.0 release line.
-- Fixed long-session edge cases that could interrupt 24/7 autoplay.
-- Fixed cases where captcha or challenge recovery could delay the current command chain.
-- Fixed retry behavior after wait, cooldown, refresh, and temporary anti-abuse responses.
-- Fixed repeated failed-action loops when a feature becomes unavailable during the current runtime session.
-- Fixed scheduler edge cases that could delay or skip task execution during extended operation.
+- Fixed issues that could interrupt autoplay during long 24/7 sessions.
+- Fixed captcha flow delays that could slow down command recovery.
+- Fixed cases where the client could repeat failed actions after temporary restrictions or cooldown responses.
+- Fixed unstable retry behavior after PokeMeow wait, refresh, or challenge states.
+- Fixed command state handling when a feature becomes unavailable during the current session.
+- Fixed scheduler edge cases that could delay or skip task execution during extended runtime.
+- Fixed minor long-session stability issues reported from continuous client usage.
 
 ### Upgrade Notes
 
-- The 2.0.0 client requires the matching server version response for license validation.
-- No required `settings.yml` migration is expected from v1.9.2 if existing values are valid.
-- Existing launcher `.bat` feature toggles remain the same, but launchers should call `Pokemeow Autoplay v2.0.0.exe`.
-- This release focuses on the 2.0.0 client version line, license compatibility, 24/7 stability, Anti-Ban pacing, captcha recovery, challenge handling, and cleaner runtime behavior.
+- Copy the current `settings.example.yml` values into `settings.yml` when upgrading; the current auto-buy keys are `min_budget`, `max_budget`, and `ball_budget_ratio`.
+- Add `PROXY_IP=HOST:PORT:USERNAME:PASSWORD` to each account launcher before starting Discord.
+- Remove obsolete battle-target, battle-skill, and quest-filter settings from old YAML files.
+- This release focuses on runtime stability, optional pacing, faster captcha handling, challenge recovery, scheduler reliability, and cleaner long-session behavior. Users remain responsible for their own activity and account outcomes.
 
 ---
 
@@ -44,9 +77,9 @@ Customer-facing changes when upgrading from v1.9.0.
 
 ### Added
 
-- Added Anti-Ban 24/7 Mode improvements for long-running sessions.
-  - Human-Mode now uses more advanced pacing and behavior variation for extended runtime.
-  - The client is better at reducing repeated automation patterns, bot-check triggers, and account flagging risk.
+- Added optional runtime pacing improvements for long-running sessions.
+  - Human-Mode now uses timed sessions, breaks, and behavior variation for extended runtime.
+  - The client makes no claim that pacing prevents account restrictions or other enforcement.
   - Long sessions now feel less repetitive while keeping the same simple user controls.
 - Added total catch tracking across hunting, fishing, and CatchBot returns.
 - Added clearer quest summary output after checking quests.
@@ -65,8 +98,8 @@ Customer-facing changes when upgrading from v1.9.0.
   - When the bot asks the user to wait, the client now waits 3 seconds and retries the same current action.
   - Retry no longer skips to the next scheduled action first.
   - This applies to normal `please wait`, pending spawned Pokemon, and catch/fish cooldown-ready messages.
-- Improved Anti-Ban runtime scheduling.
-  - Human-Mode now runs in longer natural sessions before taking longer breaks.
+- Improved optional runtime pacing scheduling.
+  - Human-Mode now runs in longer sessions before taking longer breaks.
   - Bot-Mode keeps direct schedule-based operation for users who prefer predictable continuous automation.
   - Human-Mode and Bot-Mode now share the same base command timing ranges.
 - Improved runtime disable behavior.
@@ -109,7 +142,7 @@ Customer-facing changes when upgrading from v1.9.0.
 - Existing launcher `.bat` feature toggles remain the same.
 - Users should review `settings.example.yml` if they want the updated `min_budget` and battle skill examples.
 - For battle automation, configure only skill buttons that are available for the selected Pokemon. If a configured skill does not exist, the client refreshes once and then forfeits the battle.
-- This release focuses on Anti-Ban 24/7 behavior, battle reliability, shop safety, clearer rarity logs, retry correctness, scheduler stability, and runtime statistics.
+- This release focuses on optional runtime pacing, battle reliability, shop safety, clearer rarity logs, retry correctness, scheduler stability, and runtime statistics.
 
 ---
 

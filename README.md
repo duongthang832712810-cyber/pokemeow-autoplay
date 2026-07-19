@@ -16,29 +16,35 @@
 ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝      
 </pre>
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)]()
+[![Version](https://img.shields.io/badge/version-2.4.0-blue?style=for-the-badge)]()
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
 [![Discord](https://img.shields.io/badge/Discord_Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 [![Paid App](https://img.shields.io/badge/access-Paid_App-green?style=for-the-badge)]()
 
-**A paid Windows client for 24/7 PokéMeow automation with Anti-Ban pacing, hunting, fishing, battles, checklist rewards, inventory actions, ball buying, quest handling, webhooks, captcha handling, and runtime statistics.**
+**A paid Windows client for PokéMeow automation with optional runtime pacing, hunting, fishing, battles, checklist rewards, inventory actions, ball buying, quest handling, webhooks, captcha handling, and runtime statistics.**
 
-[Functions](#main-functions) &bull; [Anti-Ban](#anti-ban-247-mode) &bull; [Feature Details](#feature-details) &bull; [Setup](#setup) &bull; [Configuration](#configuration) &bull; [Hotkeys](#runtime-hotkeys) &bull; [Pricing](#pricing) &bull; [Warning](#warning)
+[Functions](#main-functions) &bull; [Runtime Pacing](#runtime-pacing) &bull; [Feature Details](#feature-details) &bull; [Setup](#setup) &bull; [Configuration](#configuration) &bull; [Hotkeys](#runtime-hotkeys) &bull; [Pricing](#pricing) &bull; [Warning](#warning)
 
 </div>
 
 ---
 
 > [!CAUTION]
-> This app automates a Discord user account. Discord and PokéMeow may restrict accounts for automated activity. Use an alternate account and accept the risk before running the client.
+> This app automates a Discord user account. The user is solely responsible for their account, commands, tokens, proxy, and all activity performed with the client. The developer does not guarantee uninterrupted service and is not liable for bans, restrictions, captcha locks, lost data, lost access, or any other consequence caused by use of the client.
 
 ---
 
-## v2.0.0 Highlights
+> [!TIP]
+> **Need direct captcha assistance?** Try [Meow Captcha on Discord Discovery](https://discord.com/discovery/applications/1502217750444249208).
+> It is an external Discord service; review its permissions, terms, privacy policy, and account risks before use.
 
-- New 2.0.0 client line for long-session autoplay.
-- Stronger 24/7 runtime stability for continuous long-session autoplay.
-- Upgraded Anti-Ban pacing for smoother extended sessions with less repetitive behavior.
+---
+
+## v2.4.0 Highlights
+
+- Current 2.4.0 client line for long-session autoplay.
+- Stronger runtime stability for continuous long-session autoplay.
+- Optional runtime pacing with timed sessions, breaks, and configurable feature flags.
 - Faster captcha solve flow with cleaner recovery after challenge states.
 - Better handling for wait, retry, cooldown, refresh, and temporary anti-abuse responses.
 - Improved scheduler reliability across hunting, fishing, battles, checklist, inventory, release, and shop automation.
@@ -52,17 +58,18 @@
 |:--|:--|
 | Hunting | Sends `;p`, reads the wild Pokémon, chooses a ball, catches, parses result, updates stats, and sends webhook alerts when configured. |
 | Fishing | Sends `;f`, handles bite/pull flow, detects no-nibble/got-away states, catches fish encounters, tracks tokens, and applies ball rules. |
-| Battle | Starts battles against configured NPC/user targets and rotates configured skills until the fight ends. |
+| Battle | Starts the hardcoded `;b npc 1` battle flow and clicks the first available attack button until the fight ends. |
 | Checklist | Reads `;cl` and runs supported ready actions such as daily reward, CatchBot, swap token, and daily hunt. |
 | Inventory | Scans inventory pages and triggers supported item actions such as eggs, lootboxes, Grazz, Repels, and quests. |
 | Ball Shop | Checks coin balance and buys balls based on configured budget ratios when ball stock is low. |
 | Duplicate Release | Releases duplicate Pokémon and tracks returned coins. |
-| Quest Handling | Reads quests, keeps preferred quest types, rerolls unwanted quests when reset scrolls are available, and logs readable quest summaries. |
+| Quest Handling | Reads quests, keeps only the exact `:dexcaught:` quest type, rerolls unwanted quests when reset scrolls are available, and logs readable quest summaries. |
 | CatchBot | Starts CatchBot when ready, handles returned rewards, and tracks returned Pokémon counts. |
 | Webhooks | Sends important catch/fail notifications for Legendary, Shiny, Golden, and configured special Pokémon encounters. |
+| Discord Proxy | Routes Discord gateway, CDN captcha, and direct Discord webhook traffic through the authenticated proxy configured in the launcher. License/API traffic stays direct. |
 | Captcha | Detects captcha prompts, solves supported captcha flow faster, and recovers more cleanly after challenge states. |
 | Statistics | Tracks catches, encounters, coins, items, tokens, lootboxes, eggs, battles, captcha count, releases, Grazz, Repels, and CatchBot returns. |
-| Anti-Ban 24/7 | Human-Mode adds advanced pacing, challenge-resilience handling, behavior variation, and safer runtime control for long sessions. |
+| Runtime Pacing | Human-Mode adds optional timed sessions and breaks. It does not prevent account restrictions or guarantee account safety. |
 
 ---
 
@@ -83,14 +90,18 @@ set ENABLE_HUNTING=True
 What it does:
 
 - Sends normal hunt command `;p`.
+- Occasionally skips a hunt cycle or sends a typo before the correct command.
 - Parses Pokémon name, rarity, held-item state, and available balls.
 - Uses rarity-based ball rules from `settings.yml`.
 - Supports Pokémon-specific ball overrides.
 - Uses `hunt_item_ball` when a wild Pokémon is holding an item.
 - Falls back to another usable ball when the preferred ball is unavailable.
+- Occasionally skips or varies normal-ball throws; Legendary, Shiny, and Golden ball choices are never randomized.
+- Waits 1-3 seconds immediately before clicking the selected ball.
 - Parses catch/fail result.
 - Tracks encounter count, catch count, coins, items, and rarity stats.
 - Can send webhook notifications for important encounters.
+- Queries and logs the first market listing after successful Legendary, Shiny, or Golden catches.
 
 </td>
 <td width="50%">
@@ -106,15 +117,19 @@ set ENABLE_FISHING=True
 What it does:
 
 - Sends fishing command `;f`.
+- Occasionally skips a fishing cycle or sends a typo before the correct command.
 - Waits for fishing state updates.
 - Detects no nibble and got-away results.
 - Clicks pull when a bite appears.
 - Parses the fished Pokémon encounter.
 - Looks up fishing rarity from local Pokémon data.
 - Applies default fishing ball, rarity ball, and Pokémon-specific override rules.
+- Occasionally skips or varies normal-ball throws; Legendary, Shiny, and Golden ball choices are never randomized.
+- Waits 1-3 seconds immediately before clicking the selected ball.
 - Parses catch/fail result.
 - Tracks fish encounters, catches, rarity stats, and fishing tokens.
 - Can send webhook notifications for important encounters.
+- Queries and logs the first market listing after successful Legendary, Shiny, or Golden catches.
 
 </td>
 </tr>
@@ -129,28 +144,12 @@ Enable:
 set ENABLE_BATTLE_NPC=True
 ```
 
-Settings:
-
-```yml
-battle_mode: npc
-battle_target:
-  - 1
-  - 2
-  - 3
-battle_skills:
-  - 1
-  - 2
-  - 1
-```
-
 What it does:
 
-- Starts battle with one random configured target.
-- Supports NPC mode and user target mode when configured.
-- Rotates through configured skill buttons.
+- Always starts battle with `;b npc 1`.
+- Clicks the first available attack button until the battle ends.
 - Detects battle win/end states.
-- Tracks battle wins and earned coins when available.
-- Disables battle for the current session if requirements are missing.
+- Tracks battle wins, earned coins, and received items.
 
 </td>
 <td width="50%">
@@ -215,28 +214,14 @@ Enable:
 set ENABLE_AUTO_BUY_BALLS=True
 ```
 
-Settings:
-
-```yml
-max_budget: 200000
-min_budget: 2000
-ball_budget_ratio:
-  pokeball: 85
-  greatball: 45
-  ultraball: 10
-  masterball: 0
-```
-
 What it does:
 
 - Detects low Poké Ball or Great Ball stock.
 - Checks coin balance.
-- Skips buying when budget is below `min_budget`.
-- Caps spending by `max_budget`.
-- Splits budget by `ball_budget_ratio`.
-- Skips any ball type set to `0`.
+- Uses `min_budget`, `max_budget`, and `ball_budget_ratio` from `settings.yml`.
+- Applies the configured percentage for each ball type to the remaining budget.
 - Sends shop buy commands only when the budget can buy at least one ball.
-- Temporarily backs off if there are not enough coins.
+- Waits for the configured scheduler interval before checking again after an insufficient-budget run.
 
 </td>
 </tr>
@@ -270,21 +255,12 @@ Enable:
 set ENABLE_AUTO_QUEST_REROLL=True
 ```
 
-Settings:
-
-```yml
-keep_quest_type:
-  - Receive
-  - ":dexcaught:"
-  - oldrod
-```
-
 What it does:
 
 - Sends `;q`.
 - Reads quest lines from the quest embed.
 - Converts emoji quest types into readable labels.
-- Keeps quests matching `keep_quest_type`.
+- Keeps only quests whose parsed type is exactly `:dexcaught:`.
 - Uses quest reset scrolls to reroll unwanted quests.
 - Logs compact quest summaries such as `#1: oldrod | #2: Receive`.
 - Can request quest help when supported by the running state.
@@ -343,43 +319,39 @@ What it does:
 
 ---
 
-## Anti-Ban 24/7 Mode
+## Runtime Pacing
 
 Enable:
 
 ```bat
-set HUMAN_PLAY=True
+set ENABLE_HUMAN_MODE=True
 ```
 
-Anti-Ban 24/7 Mode is built for long unattended sessions. It keeps the normal farm loop running while adding a private behavior-control layer designed to make runtime activity look less mechanical, improve challenge resilience, and reduce account-flagging risk.
+Human Mode is an optional runtime pacing mode for long unattended sessions. It alternates timed activity sessions with longer breaks and occasional micro-breaks.
 
 What it does:
 
-- Runs normal scheduled farming continuously.
-- Uses adaptive timing instead of simple fixed delays.
-- Adds session-level pacing for 24/7 farming.
-- Reduces repetitive action patterns that commonly make automation easier to detect.
-- Improves recovery after captcha, cooldown, wait, refresh, and temporary anti-abuse responses.
-- Helps lower bot-check and account-flagging risk during long runtime.
-- Automatically falls back to normal farming when optional protection behavior is unavailable.
+- Runs the normal scheduler continuously while enabled.
+- Alternates timed active sessions with longer rest periods.
+- Occasionally takes a short micro-break before a scheduled command.
 
-> Anti-Ban mode reduces risk for 24/7 automation, but no automation tool can remove all account restriction risk.
+> Runtime pacing does not prevent account restrictions or remove the risks of automation.
 
 ---
 
 ## Human-Mode And Bot-Mode
 
 ```bat
-set HUMAN_PLAY=True
+set ENABLE_HUMAN_MODE=True
 ```
 
-Human-Mode enables the Anti-Ban 24/7 behavior layer described above.
+Human-Mode enables the optional runtime pacing described above.
 
 ```bat
-set HUMAN_PLAY=False
+set ENABLE_HUMAN_MODE=False
 ```
 
-Bot-Mode follows the scheduler more directly and is easier to predict when testing. It does not use the advanced Anti-Ban 24/7 behavior layer.
+Bot-Mode follows the scheduler more directly and is easier to predict when testing. It does not use the optional runtime pacing layer.
 
 Both modes use the same core automation features. The difference is how the runtime session is paced.
 
@@ -390,14 +362,14 @@ Both modes use the same core automation features. The difference is how the runt
 This guide is for the packaged Windows client:
 
 ```text
-Pokemeow Autoplay v2.0.0.exe
+Pokemeow Autoplay v2.4.0.exe
 ```
 
 Recommended release folder:
 
 ```text
 Pokemeow Autoplay/
-  Pokemeow Autoplay v2.0.0.exe
+  Pokemeow Autoplay v2.4.0.exe
   README.md
   CHANGELOG.md
   settings.example.yml
@@ -410,7 +382,7 @@ Quick setup:
 1. Put the `.exe`, `README.md`, `CHANGELOG.md`, `settings.example.yml`, and `run` folder together.
 2. Copy `settings.example.yml` to `settings.yml`.
 3. Copy `run/example.bat` to a personal launcher such as `run/Hunter.bat`.
-4. Fill in `SESSION_NAME`, `DISCORD_TOKEN`, and `CHANNEL_ID`.
+4. Fill in `SESSION_NAME`, `DISCORD_TOKEN`, `CHANNEL_ID`, and `PROXY_IP`.
 5. Turn feature toggles on or off.
 6. Double-click the launcher `.bat`.
 
@@ -421,7 +393,8 @@ Launcher example:
 set SESSION_NAME=Hunter
 set DISCORD_TOKEN=YOUR_DISCORD_TOKEN
 set CHANNEL_ID=YOUR_CHANNEL_ID
-set HUMAN_PLAY=True
+set PROXY_IP=HOST:PORT:USERNAME:PASSWORD
+set ENABLE_HUMAN_MODE=True
 
 set ENABLE_AUTO_BUY_BALLS=True
 set ENABLE_AUTO_RELEASE_DUPLICATES=True
@@ -438,9 +411,10 @@ set ENABLE_AUTO_DAILY=True
 set ENABLE_AUTO_CATCHBOT=True
 set ENABLE_AUTO_SWAP=True
 set ENABLE_AUTO_HUNT=True
+set STOP_ON_DAILY_LIMIT=False
 
 cd /d "%~dp0.."
-"Pokemeow Autoplay v2.0.0.exe"
+"Pokemeow Autoplay v2.4.0.exe"
 pause
 ```
 
@@ -449,6 +423,60 @@ If the app filename changes, update the final command:
 ```bat
 "Pokemeow Autoplay vX.X.X.exe"
 ```
+
+---
+
+## Build Release Package
+
+Run `build_release.bat` from the repository root. The script reads the
+release version from the version badge in this README, checks that the same
+version exists in `CHANGELOG.md`, builds the executable, and packages the
+current release files.
+
+Required build environment:
+
+- `.venv-build\Scripts\python.exe`
+- Nuitka installed in the build environment
+- `assets\masterball.ico`
+- `data\pokemon_info.json`
+
+Build modes:
+
+```bat
+build_release.bat 1
+```
+
+Build the release folder only.
+
+```bat
+build_release.bat 2
+```
+
+Create a ZIP from an existing release folder.
+
+```bat
+build_release.bat 3
+```
+
+Build the release folder and ZIP package.
+
+The generated package contains exactly these current files:
+
+```text
+release/
+  Pokemeow Autoplay v2.4.0/
+    Pokemeow Autoplay v2.4.0.exe
+    README.md
+    CHANGELOG.md
+    settings.example.yml
+    run/
+      example.bat
+```
+
+The package launcher is copied from `run/example.bat`; the build script only
+replaces its final `python main.py` command with the generated executable
+name. Any later changes to the example launcher, YAML template, README, or
+changelog are therefore included automatically in the next build.
 
 ---
 
@@ -461,36 +489,39 @@ If the app filename changes, update the final command:
 | `SESSION_NAME` | Name shown for this running session |
 | `DISCORD_TOKEN` | Discord user token |
 | `CHANNEL_ID` | Channel where commands are sent |
-| `HUMAN_PLAY` | `True` for Human-Mode, `False` for Bot-Mode |
+| `PROXY_IP` | Authenticated HTTP proxy for all Discord gateway, CDN, and webhook traffic; format `HOST:PORT:USERNAME:PASSWORD` |
+| `ENABLE_HUMAN_MODE` | `True` for Human-Mode, `False` for Bot-Mode |
+| `STOP_ON_DAILY_LIMIT` | `True` to stop the app when the daily catch limit is reached; `False` to disable the blocked command for the current session |
 
-Accepted enabled values:
+Enabled value:
 
 ```text
-1, true, yes, on
+True
 ```
 
-Everything else is treated as disabled, except `HUMAN_PLAY`, which defaults to enabled when missing.
+Every other value, including different casing, is disabled. Missing feature flags are disabled.
+
+`PROXY_IP` is required by the launcher. It must use the exact format
+`HOST:PORT:USERNAME:PASSWORD`. The proxy is used for Discord gateway, Discord
+CDN captcha downloads, and direct Discord webhooks. License/API requests and
+server webhooks remain direct.
 
 ### settings.yml Options
 
 | Setting | Description |
 |:--|:--|
 | `server_url` | Service URL provided with the app |
-| `max_budget` | Maximum coins allowed for one shop run |
-| `min_budget` | Minimum budget required before auto-buy runs |
-| `ball_budget_ratio` | Relative budget split for ball purchases |
 | `min_grazz` | Minimum Grazz Berries before using all |
 | `min_repel` | Minimum Repels before using all |
 | `min_lootbox` | Minimum lootboxes before opening all |
+| `min_budget` | Minimum Pokecoins budget before auto-buy runs |
+| `max_budget` | Maximum Pokecoins budget used by auto-buy |
+| `ball_budget_ratio` | Exact percentage mapping for the remaining auto-buy budget |
 | `fishing_ball` | Default ball for normal fishing encounters |
 | `fishing_shiny_golden_ball` | Ball for rare fishing encounters when no stronger rule applies |
 | `hunt_item_ball` | Ball for hunted Pokémon holding an item |
 | `webhook_url_success` | Webhook for successful important catches |
 | `webhook_url_failed` | Webhook for failed important catches |
-| `keep_quest_type` | Quest types that should not be rerolled |
-| `battle_mode` | Battle mode, such as `npc` or `user` |
-| `battle_target` | Battle targets the app may choose from |
-| `battle_skills` | Battle skill rotation; use only skills available for the selected battle target |
 | `rarity_pokeball_mapping` | Ball preference by rarity |
 | `pokemon_pokeball_mapping` | Ball override for specific Pokémon |
 
@@ -503,8 +534,6 @@ ultraball
 premierball
 masterball
 ```
-
-Plural forms are accepted too.
 
 ---
 
@@ -610,6 +639,12 @@ Check:
 - webhook URL is valid
 - the Discord webhook channel still exists
 
+### Proxy authentication fails
+
+Check that `PROXY_IP` contains exactly four non-empty parts and that the
+proxy account is valid. A `407` error means the proxy rejected authentication;
+the client does not fall back to a direct Discord connection.
+
 ---
 
 ## Changelog
@@ -621,16 +656,17 @@ See [CHANGELOG.md](./CHANGELOG.md) for public update notes.
 ## Warning
 
 - This app automates a Discord user account.
-- Discord or PokéMeow may restrict automated activity.
-- Account bans, captcha locks, cooldowns, or other losses are possible.
-- The developer is not responsible for account restrictions or losses.
-- Use an alternate account.
+- The user is solely responsible for their account, token, proxy, configuration, commands, and activity.
+- The user must comply with Discord, PokéMeow, and applicable third-party rules.
+- Account bans, restrictions, captcha locks, cooldowns, data loss, and loss of access are possible.
+- The developer provides no account-safety guarantee and is not liable for any consequence of use.
+- Use an alternate account only if the user accepts these risks.
 
 ---
 
 <div align="center">
 
-**v2.0.0** &mdash; Pokemeow Autoplay
+**v2.4.0** &mdash; Pokemeow Autoplay
 
 [![Discord](https://img.shields.io/badge/Join_the_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 
