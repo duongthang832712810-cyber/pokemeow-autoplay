@@ -4,9 +4,36 @@ All notable public app updates are listed from newest to oldest.
 
 ---
 
-## v2.4.0
+## v2.4.1
 
 Current release.
+
+### Added
+
+- Added an optional session stop after the configured number of valid hunt encounters.
+- Added `[Encounter Limit] Target` and `[Encounter Limit] Reached` runtime logs.
+- Added a Discord startup log showing `HOST:PORT` for proxy mode or `None` for direct mode without exposing credentials.
+- Encounter limit target is shown before Discord connects as its configured number when enabled or `None` when disabled.
+
+### Changed
+
+- Renamed the launcher flag to `STOP_ON_ENCOUNTER_LIMIT`.
+- Renamed the YAML setting to `encounter_limit`.
+- Standardized hunt and fishing random behavior: 20% command skip, 2% typo, 1% no throw, 3% alternate normal ball, and 96% configured ball.
+- Enabled every feature flag in the packaged example launcher, including battle and encounter limit.
+- Updated the public version to `2.4.1` and the server API client version to `2.4.1.0`.
+
+### Upgrade Notes
+
+- Replace `ENABLE_STOP_AFTER_HUNT_ENCOUNTERS` with `STOP_ON_ENCOUNTER_LIMIT` in every launcher.
+- Replace `stop_after_hunt_encounters` with `encounter_limit` in `settings.yml`.
+- The old names are not supported and are not used as fallbacks.
+
+---
+
+## v2.4.0
+
+Previous release.
 
 ### Changed
 
@@ -23,8 +50,9 @@ Current release.
 
 ### Configuration
 
-- `PROXY_IP` must use the exact `HOST:PORT:USERNAME:PASSWORD` format.
-- Invalid or missing proxy configuration stops startup; the client never falls back to a direct Discord connection.
+- `PROXY_IP` is optional: missing or empty means direct Discord mode.
+- When present, `PROXY_IP` must use the exact `HOST:PORT:USERNAME:PASSWORD` format; an invalid value stops startup.
+- A configured proxy is never silently replaced with direct mode after a connection failure.
 - Existing `settings.yml` files must contain the current auto-buy budget keys and no longer need the removed battle-target, battle-skill, or quest-filter settings.
 
 ### Responsibility and Disclaimer

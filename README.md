@@ -16,7 +16,7 @@
 ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝      
 </pre>
 
-[![Version](https://img.shields.io/badge/version-2.4.0-blue?style=for-the-badge)]()
+[![Version](https://img.shields.io/badge/version-2.4.1-blue?style=for-the-badge)]()
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
 [![Discord](https://img.shields.io/badge/Discord_Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 [![Paid App](https://img.shields.io/badge/access-Paid_App-green?style=for-the-badge)]()
@@ -40,9 +40,11 @@
 
 ---
 
-## v2.4.0 Highlights
+## v2.4.1 Highlights
 
-- Current 2.4.0 client line for long-session autoplay.
+- Current 2.4.1 client line for long-session autoplay.
+- Optional automatic stop after the configured number of valid hunt encounters.
+- Startup logs show the configured encounter target and Discord proxy mode.
 - Stronger runtime stability for continuous long-session autoplay.
 - Optional runtime pacing with timed sessions, breaks, and configurable feature flags.
 - Faster captcha solve flow with cleaner recovery after challenge states.
@@ -100,6 +102,7 @@ What it does:
 - Waits 1-3 seconds immediately before clicking the selected ball.
 - Parses catch/fail result.
 - Tracks encounter count, catch count, coins, items, and rarity stats.
+- Can stop cleanly after the configured number of valid hunt encounters when `STOP_ON_ENCOUNTER_LIMIT=True`.
 - Can send webhook notifications for important encounters.
 - Queries and logs the first market listing after successful Legendary, Shiny, or Golden catches.
 
@@ -362,14 +365,14 @@ Both modes use the same core automation features. The difference is how the runt
 This guide is for the packaged Windows client:
 
 ```text
-Pokemeow Autoplay v2.4.0.exe
+Pokemeow Autoplay v2.4.1.exe
 ```
 
 Recommended release folder:
 
 ```text
 Pokemeow Autoplay/
-  Pokemeow Autoplay v2.4.0.exe
+  Pokemeow Autoplay v2.4.1.exe
   README.md
   CHANGELOG.md
   settings.example.yml
@@ -382,7 +385,7 @@ Quick setup:
 1. Put the `.exe`, `README.md`, `CHANGELOG.md`, `settings.example.yml`, and `run` folder together.
 2. Copy `settings.example.yml` to `settings.yml`.
 3. Copy `run/example.bat` to a personal launcher such as `run/Hunter.bat`.
-4. Fill in `SESSION_NAME`, `DISCORD_TOKEN`, `CHANNEL_ID`, and `PROXY_IP`.
+4. Fill in `SESSION_NAME`, `DISCORD_TOKEN`, and `CHANNEL_ID`; `PROXY_IP` is optional.
 5. Turn feature toggles on or off.
 6. Double-click the launcher `.bat`.
 
@@ -393,7 +396,7 @@ Launcher example:
 set SESSION_NAME=Hunter
 set DISCORD_TOKEN=YOUR_DISCORD_TOKEN
 set CHANNEL_ID=YOUR_CHANNEL_ID
-set PROXY_IP=HOST:PORT:USERNAME:PASSWORD
+set PROXY_IP=
 set ENABLE_HUMAN_MODE=True
 
 set ENABLE_AUTO_BUY_BALLS=True
@@ -412,9 +415,10 @@ set ENABLE_AUTO_CATCHBOT=True
 set ENABLE_AUTO_SWAP=True
 set ENABLE_AUTO_HUNT=True
 set STOP_ON_DAILY_LIMIT=False
+set STOP_ON_ENCOUNTER_LIMIT=False
 
 cd /d "%~dp0.."
-"Pokemeow Autoplay v2.4.0.exe"
+"Pokemeow Autoplay v2.4.1.exe"
 pause
 ```
 
@@ -464,8 +468,8 @@ The generated package contains exactly these current files:
 
 ```text
 release/
-  Pokemeow Autoplay v2.4.0/
-    Pokemeow Autoplay v2.4.0.exe
+  Pokemeow Autoplay v2.4.1/
+    Pokemeow Autoplay v2.4.1.exe
     README.md
     CHANGELOG.md
     settings.example.yml
@@ -489,9 +493,10 @@ changelog are therefore included automatically in the next build.
 | `SESSION_NAME` | Name shown for this running session |
 | `DISCORD_TOKEN` | Discord user token |
 | `CHANNEL_ID` | Channel where commands are sent |
-| `PROXY_IP` | Authenticated HTTP proxy for all Discord gateway, CDN, and webhook traffic; format `HOST:PORT:USERNAME:PASSWORD` |
+| `PROXY_IP` | Optional authenticated HTTP proxy for Discord gateway, CDN, and webhook traffic; leave empty for direct mode; format `HOST:PORT:USERNAME:PASSWORD` |
 | `ENABLE_HUMAN_MODE` | `True` for Human-Mode, `False` for Bot-Mode |
 | `STOP_ON_DAILY_LIMIT` | `True` to stop the app when the daily catch limit is reached; `False` to disable the blocked command for the current session |
+| `STOP_ON_ENCOUNTER_LIMIT` | `True` to stop after the hunt encounter limit in `settings.yml`; `False` to leave the scheduler running |
 
 Enabled value:
 
@@ -501,16 +506,26 @@ True
 
 Every other value, including different casing, is disabled. Missing feature flags are disabled.
 
-`PROXY_IP` is required by the launcher. It must use the exact format
-`HOST:PORT:USERNAME:PASSWORD`. The proxy is used for Discord gateway, Discord
-CDN captcha downloads, and direct Discord webhooks. License/API requests and
-server webhooks remain direct.
+`PROXY_IP` is optional. If it is missing or empty, Discord runs in direct mode.
+If it is present, it must use the exact format `HOST:PORT:USERNAME:PASSWORD`;
+an invalid value stops startup. A valid proxy is used for Discord gateway,
+Discord CDN captcha downloads, and direct Discord webhooks. License/API
+requests and server webhooks remain direct.
+
+At startup, Discord mode is logged as `[Discord] Proxy: HOST:PORT` or
+`[Discord] Proxy: None`. Proxy credentials are never printed.
+
+At startup, the encounter limit is logged as `[Encounter Limit] Target: N`
+when enabled or `[Encounter Limit] Target: None` when disabled. Reaching the
+enabled target logs `[Encounter Limit] Reached: N/N`, prints statistics, and
+closes Discord.
 
 ### settings.yml Options
 
 | Setting | Description |
 |:--|:--|
 | `server_url` | Service URL provided with the app |
+| `encounter_limit` | Required session hunt encounter limit; integer `>= 1` |
 | `min_grazz` | Minimum Grazz Berries before using all |
 | `min_repel` | Minimum Repels before using all |
 | `min_lootbox` | Minimum lootboxes before opening all |
@@ -641,9 +656,10 @@ Check:
 
 ### Proxy authentication fails
 
-Check that `PROXY_IP` contains exactly four non-empty parts and that the
-proxy account is valid. A `407` error means the proxy rejected authentication;
-the client does not fall back to a direct Discord connection.
+If `PROXY_IP` is empty, direct mode is expected. If it has a value, check that
+it contains exactly four non-empty parts and that the proxy account is valid. A
+`407` error means the proxy rejected authentication; the client does not fall
+back to direct mode when a proxy value is configured.
 
 ---
 
@@ -666,7 +682,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for public update notes.
 
 <div align="center">
 
-**v2.4.0** &mdash; Pokemeow Autoplay
+**v2.4.1** &mdash; Pokemeow Autoplay
 
 [![Discord](https://img.shields.io/badge/Join_the_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/K4vfTbgh2U)
 
